@@ -38,6 +38,7 @@ from geoserver.workspace import Workspace
 
 from dialogos.models import Comment
 from agon_ratings.models import OverallRating
+from geonode.people.utils import get_valid_user
 
 logger = logging.getLogger(__name__)
 
@@ -238,7 +239,12 @@ def delete_from_postgis(resource_name):
     to be used after deleting a layer from the system.
     """
     import psycopg2
+    user = get_valid_user()
+    schema = request.user.profile.name
+
     dsname = ogc_server_settings.DATASTORE
+    resource_name = resource_name.replace("public",schema)	
+
     db = ogc_server_settings.datastore_db
     conn=psycopg2.connect("dbname='" + db['NAME'] + "' user='" + db['USER'] + "'  password='" + db['PASSWORD'] + "' port=" + db['PORT'] + " host='" + db['HOST'] + "'")
     try:
