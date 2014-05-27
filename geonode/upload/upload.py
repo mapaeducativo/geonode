@@ -470,7 +470,7 @@ def final_step(upload_session, user):
     # data, etc
     import time
     wait_counter = 0
-    while wait_counter < 200:
+    while wait_counter < 150:
         wait_counter += 1
         time.sleep(2)
         publishing = cat.get_layer(name)
