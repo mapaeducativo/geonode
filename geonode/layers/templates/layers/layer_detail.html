@@ -91,8 +91,8 @@
                 <tr>
                   <th>{% trans "Attribute Name" %}</th>
                   <th>{% trans "Range" %}</th>
-                  <th>{% trans "Average" %}</th>
-                  <th>{% trans "Median" %}</th>
+                  <!--<th>{% trans "Average" %}</th>
+                  <th>{% trans "Median" %}</th> -->
 	          <th>{% trans "Description" %}</th>
                 </tr>
               </thead>
@@ -111,8 +111,8 @@
                       </select>
                     </td>
                     {% endif %}
-                    <td>{{ attribute.average|floatformat:"2" }}</td>
-                    <td>{{ attribute.median|floatformat:"2" }}</td>
+                    <!--<td>{{ attribute.average|floatformat:"2" }}</td>
+                    <td>{{ attribute.median|floatformat:"2" }}</td> -->
 		    <td>{{ attribute.description }}</td>
                   </tr>
                 {% endfor %}
