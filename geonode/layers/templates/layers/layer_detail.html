@@ -93,8 +93,7 @@
                   <th>{% trans "Range" %}</th>
                   <th>{% trans "Average" %}</th>
                   <th>{% trans "Median" %}</th>
-                  <th>{% trans "Standard Deviation" %}</th>
-	          <th>Descripcion</th>
+	          <th>{% trans "Description" %}</th>
                 </tr>
               </thead>
               <tbody>
@@ -114,7 +113,6 @@
                     {% endif %}
                     <td>{{ attribute.average|floatformat:"2" }}</td>
                     <td>{{ attribute.median|floatformat:"2" }}</td>
-                    <td>{{ attribute.stddev|floatformat:"2" }}</td>
 		    <td>{{ attribute.description }}</td>
                   </tr>
                 {% endfor %}
