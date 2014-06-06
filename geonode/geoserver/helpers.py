@@ -240,10 +240,7 @@ def delete_from_postgis(resource_name):
     import psycopg2
 
     schema = ogc_server_settings.DATASTORE
-    ogc_server_settings.DATASTORE = "datastore"
-
-    dsname = ogc_server_settings.DATASTORE
-
+   
     db = ogc_server_settings.datastore_db
     conn=psycopg2.connect("dbname='" + db['NAME'] + "' user='" + db['USER'] + "'  password='" + db['PASSWORD'] + "' port=" + db['PORT'] + " host='" + db['HOST'] + "'")
     try:
