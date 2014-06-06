@@ -238,9 +238,9 @@ def delete_from_postgis(resource_name):
     to be used after deleting a layer from the system.
     """
     import psycopg2
-
+   	
     schema = ogc_server_settings.DATASTORE
-   
+    ogc_server_settings.DATASTORE  = "datastore"
     db = ogc_server_settings.datastore_db
     conn=psycopg2.connect("dbname='" + db['NAME'] + "' user='" + db['USER'] + "'  password='" + db['PASSWORD'] + "' port=" + db['PORT'] + " host='" + db['HOST'] + "'")
     try:
@@ -250,6 +250,7 @@ def delete_from_postgis(resource_name):
     except Exception, e:
         logger.error("Error deleting PostGIS table %s:%s", resource_name, str(e))
     finally:
+        ogc_server_settings.DATASTORE = schema
         conn.close()
 
 def gs_slurp(ignore_errors=True, verbosity=1, console=None, owner=None, workspace=None, store=None, filter=None, skip_unadvertised=False, remove_deleted=False):
