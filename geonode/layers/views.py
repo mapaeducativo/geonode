@@ -118,6 +118,8 @@ def layer_edit(request, layername, template='layers/layer_edit.html'):
     The view that returns the map composer opened to
     a map with the given layername.
     """
+    user = get_valid_user()
+    ogc_server_settings.DATASTORE = request.user.profile.name
     layer = _resolve_layer(request, layername, 'layers.view_layer', _PERMISSION_MSG_VIEW)
 
     maplayer = GXPLayer(name = layer.typename, ows_url = ogc_server_settings.public_url + "wms", layer_params=json.dumps( layer.attribute_config()))
@@ -233,6 +235,9 @@ def layer_detail(request, layername, template='layers/layer_detail.html'):
 @login_required
 
 def layer_metadata(request, layername, template='layers/layer_metadata.html'):
+    user = get_valid_user()
+    ogc_server_settings.DATASTORE = request.user.profile.name
+
     layer = _resolve_layer(request, layername, 'layers.change_layer', _PERMISSION_MSG_METADATA)
     layer_attribute_set = inlineformset_factory(Layer, Attribute, extra=0, form=LayerAttributeForm, )
 
@@ -313,6 +318,9 @@ def layer_metadata(request, layername, template='layers/layer_metadata.html'):
 @login_required
 @require_POST
 def layer_style(request, layername):
+    user = get_valid_user()
+    ogc_server_settings.DATASTORE = request.user.profile.name
+
     layer = _resolve_layer(request, layername, 'layers.change_layer',_PERMISSION_MSG_MODIFY)
 
     style_name = request.POST.get('defaultStyle')
@@ -341,6 +349,9 @@ def layer_style(request, layername):
 
 @login_required
 def layer_style_upload(req, layername):
+    user = get_valid_user()
+    ogc_server_settings.DATASTORE = request.user.profile.name
+
     def respond(*args,**kw):
         kw['content_type'] = 'text/html'
         return json_response(*args,**kw)
@@ -384,6 +395,8 @@ def layer_style_upload(req, layername):
 
 @login_required
 def layer_style_manage(req, layername):
+    user = get_valid_user()
+    ogc_server_settings.DATASTORE = request.user.profile.name
     layer = _resolve_layer(req, layername, 'layers.change_layer',_PERMISSION_MSG_MODIFY)
     if req.method == 'GET':
         try:
@@ -460,6 +473,8 @@ def layer_style_manage(req, layername):
 
 @login_required
 def layer_change_poc(request, ids, template = 'layers/layer_change_poc.html'):
+    user = get_valid_user()
+    ogc_server_settings.DATASTORE = request.user.profile.name
     layers = Layer.objects.filter(id__in=ids.split('_'))
     if request.method == 'POST':
         form = PocForm(request.POST)
@@ -478,6 +493,8 @@ def layer_change_poc(request, ids, template = 'layers/layer_change_poc.html'):
 
 @login_required
 def layer_replace(request, layername, template='layers/layer_replace.html'):
+    user = get_valid_user()
+    ogc_server_settings.DATASTORE = request.user.profile.name
     layer = _resolve_layer(request, layername, 'layers.change_layer',_PERMISSION_MSG_MODIFY)
 
     if request.method == 'GET':
@@ -726,6 +743,8 @@ def feature_edit_check(request, layername):
     If the layer is not a raster and the user has edit permission, return a status of 200 (OK).
     Otherwise, return a status of 401 (unauthorized).
     """
+    user = get_valid_user()
+    ogc_server_settings.DATASTORE = request.user.profile.name
     layer = get_object_or_404(Layer, typename=layername)
     feature_edit = getattr(settings, "GEOGIT_DATASTORE", None) or ogc_server_settings.DATASTORE 
     if request.user.has_perm('maps.change_layer', obj=layer) and layer.storeType == 'dataStore' and feature_edit:
