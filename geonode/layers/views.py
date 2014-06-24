@@ -350,7 +350,7 @@ def layer_style(request, layername):
 @login_required
 def layer_style_upload(req, layername):
     user = get_valid_user()
-    ogc_server_settings.DATASTORE = request.user.profile.name
+    ogc_server_settings.DATASTORE = req.user.profile.name
 
     def respond(*args,**kw):
         kw['content_type'] = 'text/html'
@@ -396,7 +396,7 @@ def layer_style_upload(req, layername):
 @login_required
 def layer_style_manage(req, layername):
     user = get_valid_user()
-    ogc_server_settings.DATASTORE = request.user.profile.name
+    ogc_server_settings.DATASTORE = req.user.profile.name
     layer = _resolve_layer(req, layername, 'layers.change_layer',_PERMISSION_MSG_MODIFY)
     if req.method == 'GET':
         try:
