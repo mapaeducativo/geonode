@@ -45,8 +45,7 @@ urlpatterns = patterns(
         name='layer_permissions'),
     url(r'^(?P<layername>[^/]*)/edit-check?$', 'feature_edit_check',
         name="feature_edit_check"),
-    url(r'^(?P<layername>[^/]*)/edit$', 'layer_edit', name='layer_edit'),
-    url(r'^test$', 'test', name='test')
+    url(r'^(?P<layername>[^/]*)/edit$', 'layer_edit', name='layer_edit')
     #url(r'^api/batch_permissions/?$', 'batch_permissions',
     #    name='batch_permssions'),
     #url(r'^api/batch_delete/?$', 'batch_delete', name='batch_delete'),

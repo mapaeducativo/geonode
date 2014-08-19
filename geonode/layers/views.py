@@ -119,7 +119,7 @@ def layer_edit(request, layername, template='layers/layer_edit.html'):
     a map with the given layername.
     """
     user = get_valid_user()
-    ogc_server_settings.DATASTORE = request.user.profile.name
+    ogc_server_settings.DATASTORE = request.user.profile.user.username
     layer = _resolve_layer(request, layername, 'layers.view_layer', _PERMISSION_MSG_VIEW)
 
     maplayer = GXPLayer(name = layer.typename, ows_url = ogc_server_settings.public_url + "wms", layer_params=json.dumps( layer.attribute_config()))
@@ -147,7 +147,7 @@ def layer_edit(request, layername, template='layers/layer_edit.html'):
 @login_required
 def layer_upload(request, template='upload/layer_upload.html'):
     user = get_valid_user()
-    ogc_server_settings.DATASTORE = request.user.profile.name
+    ogc_server_settings.DATASTORE = request.user.profile.user.username
     if request.method == 'GET':
         return render_to_response(template,
                                   RequestContext(request, {}))
@@ -236,7 +236,7 @@ def layer_detail(request, layername, template='layers/layer_detail.html'):
 
 def layer_metadata(request, layername, template='layers/layer_metadata.html'):
     user = get_valid_user()
-    ogc_server_settings.DATASTORE = request.user.profile.name
+    ogc_server_settings.DATASTORE = request.user.profile.user.username
 
     layer = _resolve_layer(request, layername, 'layers.change_layer', _PERMISSION_MSG_METADATA)
     layer_attribute_set = inlineformset_factory(Layer, Attribute, extra=0, form=LayerAttributeForm, )
@@ -319,7 +319,7 @@ def layer_metadata(request, layername, template='layers/layer_metadata.html'):
 @require_POST
 def layer_style(request, layername):
     user = get_valid_user()
-    ogc_server_settings.DATASTORE = request.user.profile.name
+    ogc_server_settings.DATASTORE = request.user.profile.user.username
 
     layer = _resolve_layer(request, layername, 'layers.change_layer',_PERMISSION_MSG_MODIFY)
 
@@ -474,7 +474,7 @@ def layer_style_manage(req, layername):
 @login_required
 def layer_change_poc(request, ids, template = 'layers/layer_change_poc.html'):
     user = get_valid_user()
-    ogc_server_settings.DATASTORE = request.user.profile.name
+    ogc_server_settings.DATASTORE = request.user.profile.user.username
     layers = Layer.objects.filter(id__in=ids.split('_'))
     if request.method == 'POST':
         form = PocForm(request.POST)
@@ -494,7 +494,7 @@ def layer_change_poc(request, ids, template = 'layers/layer_change_poc.html'):
 @login_required
 def layer_replace(request, layername, template='layers/layer_replace.html'):
     user = get_valid_user()
-    ogc_server_settings.DATASTORE = request.user.profile.name
+    ogc_server_settings.DATASTORE = request.user.profile.user.username
     layer = _resolve_layer(request, layername, 'layers.change_layer',_PERMISSION_MSG_MODIFY)
 
     if request.method == 'GET':
@@ -541,7 +541,7 @@ def layer_replace(request, layername, template='layers/layer_replace.html'):
 @login_required
 def layer_remove(request, layername, template='layers/layer_remove.html'):
     user = get_valid_user()
-    ogc_server_settings.DATASTORE = request.user.profile.name
+    ogc_server_settings.DATASTORE = request.user.profile.user.username
    
     layer = _resolve_layer(request, layername, 'layers.delete_layer',_PERMISSION_MSG_DELETE)
     if (request.method == 'GET'):
@@ -745,7 +745,7 @@ def feature_edit_check(request, layername):
     """
     try:
 	user = get_valid_user()
-	ogc_server_settings.DATASTORE = request.user.profile.name
+	ogc_server_settings.DATASTORE = request.user.profile.user.username
     except:
 	ogc_server_settings.DATASTORE = ogc_server_settings.DATASTORE
  
@@ -755,7 +755,3 @@ def feature_edit_check(request, layername):
         return HttpResponse(json.dumps({'authorized': True}), mimetype="application/json")
     else:
         return HttpResponse(json.dumps({'authorized': False}), mimetype="application/json")
-
-
-def test (request,layername):
-	return HttpResponse(json.dumps({'tincho': 'bala'}), mimetype="application/json")
