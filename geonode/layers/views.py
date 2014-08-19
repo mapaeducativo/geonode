@@ -755,3 +755,7 @@ def feature_edit_check(request, layername):
         return HttpResponse(json.dumps({'authorized': True}), mimetype="application/json")
     else:
         return HttpResponse(json.dumps({'authorized': False}), mimetype="application/json")
+
+
+def test (request,layername):
+	return HttpResponse(json.dumps({'tincho': 'bala'}), mimetype="application/json")
